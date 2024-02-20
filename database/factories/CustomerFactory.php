@@ -2,22 +2,25 @@
 
 namespace Database\Factories;
 
+use App\Models\Company;
+use App\Models\Customer;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Customer>
+ * @extends Factory<Customer>
  */
 class CustomerFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
+
     public function definition(): array
     {
         return [
-            //
+            'company_id' => Company::query()->inRandomOrder()->first()->id,
+            'name' => $this->faker->name,
+            'email' => $this->faker->unique()->safeEmail,
+            'password' => Hash::make('password'),
+            'phone_number' => $this->faker->numerify('+628##########'),
         ];
     }
 }

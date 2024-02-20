@@ -2,10 +2,13 @@
 
 namespace Database\Factories;
 
+use App\Models\Company;
+use App\Models\Employee;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Employee>
+ * @extends Factory<Employee>
  */
 class EmployeeFactory extends Factory
 {
@@ -17,7 +20,10 @@ class EmployeeFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->name,
+            'email' => $this->faker->unique()->safeEmail,
+            'password' => Hash::make('password'),
+            'phone_number' => $this->faker->numerify('+628##########'),
         ];
     }
 }
