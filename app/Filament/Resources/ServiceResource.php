@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ServiceResource\Pages;
 use App\Models\Service;
+use App\Utils\StrUtils;
 use Filament\Forms;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
@@ -54,6 +55,7 @@ class ServiceResource extends Resource
                 TextColumn::make('name')->label('Name')->sortable()->searchable(),
                 TextColumn::make('code')->label('Code')->sortable(),
                 TextColumn::make('price')->label('Price')->sortable()
+                    ->formatStateUsing(fn($state): string => StrUtils::rupiahFormat($state))
             ])
             ->filters([
 

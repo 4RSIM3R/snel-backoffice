@@ -3,7 +3,9 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\SiteResource\Pages;
+use App\Models\Customer;
 use App\Models\Site;
+use App\Tables\Columns\CoordinateColumn;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -37,7 +39,12 @@ class SiteResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('Id')->rowIndex()
+                TextColumn::make('id')->rowIndex(),
+                TextColumn::make('name')->wrap(),
+                TextColumn::make('company.name')->label('Company')->url(fn(Customer $r): string => url('/admin/companies/' . $r->company_id))->wrap(),
+                TextColumn::make('customer.name')->label('PIC')->url(fn(Customer $r): string => url('/admin/customer/' . $r->customer_id))->wrap(),
+                TextColumn::make('address')->wrap(),
+                CoordinateColumn::make('Location')
             ])
             ->filters([
 

@@ -2,7 +2,7 @@
 
 namespace App\Utils;
 
-class StringUtils
+class StrUtils
 {
 
     public static function companyAlias(string $name): string
@@ -17,5 +17,11 @@ class StringUtils
 
         return $shortened;
     }
+
+    public static function rupiahFormat($number)
+    {
+        return 'Rp ' . number_format($number, 0, ',', '.');
+    }
+
 
 }
