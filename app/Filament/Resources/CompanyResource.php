@@ -6,6 +6,7 @@ use App\Filament\Resources\CompanyResource\Pages;
 use App\Models\Company;
 use App\Tables\Columns\CoordinateColumn;
 use App\Traits\StringTrait;
+use App\Utils\StringUtils;
 use Exception;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
@@ -50,7 +51,7 @@ class CompanyResource extends Resource
                     ->schema([
                         TextInput::make('name')
                             ->reactive()
-                            ->afterStateUpdated(fn(Set $set, ?string $state) => $set('business_name', Str::slug($state)))
+                            ->afterStateUpdated(fn(Set $set, ?string $state) => $set('business_name', StringUtils::companyAlias($state)))
                             ->required(),
                         TextInput::make('business_name')->required(),
                         TextInput::make('latitude')

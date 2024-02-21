@@ -3,9 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\CustomerResource\Pages;
-use App\Filament\Resources\CustomerResource\RelationManagers;
 use App\Models\Customer;
-use Filament\Actions\ViewAction;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,6 +11,7 @@ use Filament\Tables;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -38,7 +37,10 @@ class CustomerResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('Id')->rowIndex()
+                TextColumn::make('id')->rowIndex()->wrap(),
+                TextColumn::make('name')->wrap()->searchable(),
+                TextColumn::make('company.name')->label('Company')->url(fn (Customer $r): string => url('/admin/companies/'.$r->company_id))->wrap(),
+                TextColumn::make('phone_number')->label('Phone Number')->wrap(),
             ])
             ->filters([
                 //
@@ -66,6 +68,7 @@ class CustomerResource extends Resource
         return [
             'index' => Pages\ListCustomers::route('/'),
             'create' => Pages\CreateCustomer::route('/create'),
+            'view' => Pages\ViewCustomer::route('/{record}'),
             'edit' => Pages\EditCustomer::route('/{record}/edit'),
         ];
     }

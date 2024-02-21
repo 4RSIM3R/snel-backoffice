@@ -4,7 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\SiteResource\Pages;
 use App\Models\Site;
-use Filament\Actions\ViewAction;
+use Filament\Tables\Actions\ViewAction;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -40,7 +40,7 @@ class SiteResource extends Resource
                 TextColumn::make('Id')->rowIndex()
             ])
             ->filters([
-                //
+
             ])
             ->actions([
                 ViewAction::make(),
