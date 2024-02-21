@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\EmployeeResource\Pages;
 use App\Models\Employee;
+use App\Utils\ColumnUtils;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -37,7 +38,9 @@ class EmployeeResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('Id')->rowIndex(),
+                TextColumn::make('id')->rowIndex(),
+                TextColumn::make('name')->searchable()->sortable(),
+                TextColumn::make('phone_number')->url(fn($state): string => ColumnUtils::whatsapp($state)),
             ])
             ->filters([
                 //

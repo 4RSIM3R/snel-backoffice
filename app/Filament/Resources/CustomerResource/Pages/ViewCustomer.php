@@ -5,6 +5,7 @@ namespace App\Filament\Resources\CustomerResource\Pages;
 use App\Filament\Resources\CustomerResource;
 use App\Filament\Resources\CustomerResource\RelationManagers\SitesRelationManager;
 use App\Tables\Columns\CoordinateColumn;
+use App\Utils\ColumnUtils;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -35,12 +36,12 @@ class ViewCustomer extends ViewRecord
     public function infolist(Infolist $infolist): Infolist
     {
         return $infolist->schema([
-           Section::make('Customer Data')->schema([
-               TextEntry::make('name'),
-               TextEntry::make('email'),
-               TextEntry::make('phone_number')->url(fn ($state): string => sprintf("https://wa.me/%s", $state)),
-               TextEntry::make('created_at'),
-           ])->columns(2),
+            Section::make('Customer Data')->schema([
+                TextEntry::make('name'),
+                TextEntry::make('email'),
+                TextEntry::make('phone_number')->url(fn($state): string => ColumnUtils::whatsapp($state)),
+                TextEntry::make('created_at'),
+            ])->columns(2),
             Section::make('Company Data')->schema([
                 TextEntry::make('company.name')->name('Name'),
                 TextEntry::make('company.business_name')->name('Alias'),
