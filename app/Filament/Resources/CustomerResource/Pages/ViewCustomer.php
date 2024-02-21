@@ -2,8 +2,8 @@
 
 namespace App\Filament\Resources\CustomerResource\Pages;
 
-use App\Filament\Resources\CompanyResource;
 use App\Filament\Resources\CustomerResource;
+use App\Filament\Resources\CustomerResource\RelationManagers\SitesRelationManager;
 use App\Tables\Columns\CoordinateColumn;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\TextInput;
@@ -32,7 +32,6 @@ class ViewCustomer extends ViewRecord
         ]);
     }
 
-
     public function infolist(Infolist $infolist): Infolist
     {
         return $infolist->schema([
@@ -46,9 +45,16 @@ class ViewCustomer extends ViewRecord
                 TextEntry::make('company.name')->name('Name'),
                 TextEntry::make('company.business_name')->name('Alias'),
                 TextEntry::make('company.address')->name('Address'),
-                CoordinateColumn::make('location')
+
             ])->columns(2),
         ]);
+    }
+
+    public function getRelationManagers(): array
+    {
+        return [
+            SitesRelationManager::class,
+        ];
     }
 
 }
