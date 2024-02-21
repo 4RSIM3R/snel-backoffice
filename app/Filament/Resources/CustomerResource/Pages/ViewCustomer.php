@@ -4,7 +4,13 @@ namespace App\Filament\Resources\CustomerResource\Pages;
 
 use App\Filament\Resources\CompanyResource;
 use App\Filament\Resources\CustomerResource;
+use App\Tables\Columns\CoordinateColumn;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Form;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Pages\ViewRecord;
 
 class ViewCustomer extends ViewRecord
@@ -17,6 +23,32 @@ class ViewCustomer extends ViewRecord
         return [
             EditAction::make(),
         ];
+    }
+
+    public function form(Form $form): Form
+    {
+        return $form->schema([
+            TextInput::make('name'),
+        ]);
+    }
+
+
+    public function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist->schema([
+           Section::make('Customer Data')->schema([
+               TextEntry::make('name'),
+               TextEntry::make('email'),
+               TextEntry::make('phone_number')->url(fn ($state): string => sprintf("https://wa.me/%s", $state)),
+               TextEntry::make('created_at'),
+           ])->columns(2),
+            Section::make('Company Data')->schema([
+                TextEntry::make('company.name')->name('Name'),
+                TextEntry::make('company.business_name')->name('Alias'),
+                TextEntry::make('company.address')->name('Address'),
+                CoordinateColumn::make('location')
+            ])->columns(2),
+        ]);
     }
 
 }
