@@ -7,6 +7,8 @@ use App\Models\Company;
 use App\Tables\Columns\CoordinateColumn;
 use App\Traits\StringTrait;
 use Exception;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Set;
@@ -23,6 +25,7 @@ use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
+use Humaidem\FilamentMapPicker\Fields\OSMMap;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
@@ -42,10 +45,24 @@ class CompanyResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name')
-                    ->reactive()
-                    ->afterStateUpdated(fn(Set $set, ?string $state) => $set('business_name', Str::slug($state))),
-                TextInput::make('business_name'),
+                Section::make('Company')
+                    ->description('Create new client company')
+                    ->schema([
+                        TextInput::make('name')
+                            ->reactive()
+                            ->afterStateUpdated(fn(Set $set, ?string $state) => $set('business_name', Str::slug($state)))
+                            ->required(),
+                        TextInput::make('business_name')->required(),
+                        TextInput::make('latitude')
+                            ->numeric()
+                            ->inputMode('decimal')
+                            ->required(),
+                        TextInput::make('longitude')
+                            ->numeric()
+                            ->inputMode('decimal')
+                            ->required(),
+                        Textarea::make('address')->required()->columnSpan(2),
+                    ])->columns(2)
             ]);
     }
 
