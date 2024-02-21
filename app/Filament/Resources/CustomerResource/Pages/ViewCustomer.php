@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\CustomerResource\Pages;
 
 use App\Filament\Resources\CustomerResource;
-use App\Filament\Resources\CustomerResource\RelationManagers\SitesRelationManager;
+use App\Filament\Resources\CustomerResource\RelationManagers\CustomerSitesRelation;
 use App\Tables\Columns\CoordinateColumn;
 use App\Utils\ColumnUtils;
 use Filament\Actions\EditAction;
@@ -54,7 +54,7 @@ class ViewCustomer extends ViewRecord
     public function getRelationManagers(): array
     {
         return [
-            SitesRelationManager::class,
+            CustomerSitesRelation::class,
         ];
     }
 

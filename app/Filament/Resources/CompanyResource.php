@@ -3,7 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\CompanyResource\Pages;
-use App\Filament\Resources\CompanyResource\RelationManagers\CustomersRelationManager;
+use App\Filament\Resources\CompanyResource\RelationManagers\CompanyCustomerRelation;
 use App\Models\Company;
 use App\Tables\Columns\CoordinateColumn;
 use App\Traits\StringTrait;
@@ -103,7 +103,7 @@ class CompanyResource extends Resource
     public static function getRelations(): array
     {
         return [
-            CustomersRelationManager::class,
+            CompanyCustomerRelation::class,
         ];
     }
 

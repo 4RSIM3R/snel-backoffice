@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\CompanyResource\Pages;
 
 use App\Filament\Resources\CompanyResource;
-use App\Filament\Resources\CompanyResource\RelationManagers\CustomersRelationManager;
+use App\Filament\Resources\CompanyResource\RelationManagers\CompanyCustomerRelation;
 use Filament\Actions;
 use Filament\Forms\Components\Section;
 use Filament\Infolists\Infolist;
@@ -23,7 +23,7 @@ class ViewCompany extends ViewRecord
     public function getRelationManagers(): array
     {
         return [
-            CustomersRelationManager::class,
+            CompanyCustomerRelation::class,
         ];
     }
 

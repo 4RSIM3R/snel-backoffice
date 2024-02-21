@@ -40,6 +40,7 @@ class EmployeeResource extends Resource
             ->columns([
                 TextColumn::make('id')->rowIndex(),
                 TextColumn::make('name')->searchable()->sortable(),
+                TextColumn::make('email'),
                 TextColumn::make('phone_number')->url(fn($state): string => ColumnUtils::whatsapp($state)),
             ])
             ->filters([
