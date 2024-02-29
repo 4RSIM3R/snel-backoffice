@@ -20,7 +20,7 @@ class Site extends Model
 
     public function company(): BelongsTo
     {
-        return $this->belongsTo(Customer::class);
+        return $this->belongsTo(Company::class);
     }
 
 

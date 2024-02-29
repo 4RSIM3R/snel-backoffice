@@ -6,6 +6,7 @@ use App\Filament\Resources\CustomerResource\Pages;
 use App\Models\Company;
 use App\Models\Customer;
 use Filament\Forms;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -31,12 +32,11 @@ class CustomerResource extends Resource
     protected static ?string $navigationGroup = "Client";
 
 
-
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Section::make()
+                Section::make()
                     ->schema([
                         TextInput::make('name')->required(),
                         TextInput::make('email')->required(),
@@ -44,11 +44,14 @@ class CustomerResource extends Resource
                         TextInput::make('password')->required()
                             ->password()
                             ->revealable()
-                            ->hidden(fn ($livewire) => $livewire instanceof EditRecord),
+                            ->hidden(fn($livewire) => $livewire instanceof EditRecord)
+                            ->required(),
                         Select::make('company_id')
                             ->label('Company')
-                            ->options(Company::all()->pluck('name', 'id'))
+                            ->relationship(name: 'company', titleAttribute: 'name')
+                            ->preload()
                             ->searchable()
+                            ->required()
                     ])
             ]);
     }

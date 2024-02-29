@@ -22,6 +22,7 @@ return new class extends Migration {
             $table->decimal('longitude', 11, 7);
             $table->softDeletes();
             $table->timestamps();
+            $table->index(['id', 'company_id', 'customer_id']);
         });
     }
 

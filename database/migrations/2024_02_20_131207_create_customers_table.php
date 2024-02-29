@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->string('phone_number');
             $table->softDeletes();
             $table->timestamps();
+            $table->index(['id', 'company_id']);
         });
     }
 
