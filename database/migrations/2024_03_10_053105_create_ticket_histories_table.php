@@ -1,8 +1,7 @@
 <?php
 
-use App\Models\Customer;
 use App\Models\Employee;
-use App\Models\Site;
+use App\Models\Ticket;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,14 +13,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('visits', function (Blueprint $table) {
+        Schema::create('ticket_histories', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Customer::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(Site::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Ticket::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Employee::class)->constrained()->cascadeOnDelete();
-            $table->softDeletes();
+            $table->string('number');
+            $table->string('title');
+            $table->text('information');
+            $table->enum('status', ['STARTING', 'CHECKIN', 'WORKING', 'ESCALATED', 'DONE']);
             $table->timestamps();
-            $table->index(['id', 'site_id', 'customer_id', 'employee_id']);
         });
     }
 
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('visits');
+        Schema::dropIfExists('ticket_histories');
     }
 };

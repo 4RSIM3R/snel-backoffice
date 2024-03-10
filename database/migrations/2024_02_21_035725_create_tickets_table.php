@@ -19,6 +19,8 @@ return new class extends Migration {
             $table->string('number');
             $table->string('title');
             $table->string('information');
+            $table->enum('type', ['RECORDING', 'REGULAR', 'PRIORITY']);
+            $table->enum('status', ['NEED_ADMIN_REVIEW', 'ADMIN_APPROVED', 'CUSTOMER_APPROVED', 'WORKING', 'DONE', 'CANCEL']);
             $table->softDeletes();
             $table->timestamps();
             $table->index(['id', 'customer_id', 'site_id']);

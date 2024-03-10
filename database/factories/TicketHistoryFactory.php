@@ -2,13 +2,12 @@
 
 namespace Database\Factories;
 
-use App\Models\Ticket;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<Ticket>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\TicketHistory>
  */
-class TicketFactory extends Factory
+class TicketHistoryFactory extends Factory
 {
     /**
      * Define the model's default state.
