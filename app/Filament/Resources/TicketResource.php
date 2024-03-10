@@ -5,10 +5,15 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\TicketResource\Pages;
 use App\Filament\Resources\TicketResource\RelationManagers;
 use App\Models\Ticket;
+use App\Tables\Columns\StatusColumn;
+use App\Utils\StyleUtils;
+use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\Colors\Color;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -33,14 +38,23 @@ class TicketResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('number')->wrap(),
+                TextColumn::make('status')
+                    ->color(fn ($state) => StyleUtils::getStatusColor(strtolower($state)))
+                    ->extraAttributes(['text-sm'])
+                    ->formatStateUsing(fn($state) => ucwords(str_replace('_', ' ', strtolower($state)))),
+                TextColumn::make('customer.name')->wrap(),
+                TextColumn::make('employee.name')->wrap(),
+                TextColumn::make('created_at')
+                    ->formatStateUsing(fn($state) => Carbon::parse($state)->format('d M Y'))
+                    ->label('Created At')
+                    ->wrap()
             ])
             ->filters([
-                //
+
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Customer;
+use App\Models\Employee;
 use App\Models\Ticket;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -17,8 +19,16 @@ class TicketFactory extends Factory
      */
     public function definition(): array
     {
+        $customer = Customer::query()->whereHas('sites')->inRandomOrder()->first();
+        $site = $customer->sites()->inRandomOrder()->first();
         return [
-            //
+            'customer_id' => $customer->id,
+            'site_id' => $site->id,
+            'employee_id' => Employee::query()->inRandomOrder()->first()->id,
+            'title' => $this->faker->title(),
+            'information' => $this->faker->paragraph(1),
+            'type' => $this->faker->randomElement(['RECORDING', 'REGULAR', 'PRIORITY']),
+            'status' => $this->faker->randomElement(['NEED_ADMIN_REVIEW', 'ADMIN_APPROVED', 'CUSTOMER_APPROVED', 'WORKING', 'DONE', 'CANCEL']),
         ];
     }
 }
