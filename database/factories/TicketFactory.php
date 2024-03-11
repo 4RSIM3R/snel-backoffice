@@ -28,7 +28,7 @@ class TicketFactory extends Factory
             'title' => $this->faker->title(),
             'information' => $this->faker->paragraph(1),
             'type' => $this->faker->randomElement(['RECORDING', 'REGULAR', 'PRIORITY']),
-            'status' => $this->faker->randomElement(['NEED_ADMIN_REVIEW', 'ADMIN_APPROVED', 'CUSTOMER_APPROVED', 'WORKING', 'DONE', 'CANCEL']),
+            'status' => $this->faker->randomElement(['NEED_ADMIN_REVIEW', 'CANCEL']),
         ];
     }
 }

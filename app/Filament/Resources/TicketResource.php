@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\TicketResource\Pages;
-use App\Filament\Resources\TicketResource\RelationManagers;
 use App\Models\Ticket;
 use App\Tables\Columns\StatusColumn;
 use App\Utils\StyleUtils;
@@ -40,13 +39,15 @@ class TicketResource extends Resource
             ->columns([
                 TextColumn::make('number')->wrap(),
                 TextColumn::make('status')
-                    ->color(fn ($state) => StyleUtils::getStatusColor(strtolower($state)))
+                    ->color(fn($state) => StyleUtils::getStatusColor(strtolower($state)))
                     ->extraAttributes(['text-sm'])
-                    ->formatStateUsing(fn($state) => ucwords(str_replace('_', ' ', strtolower($state)))),
+                    ->formatStateUsing(fn($state) => ucwords(str_replace('_', ' ', strtolower($state))))
+                    ->wrap(),
                 TextColumn::make('customer.name')->wrap(),
+                TextColumn::make('site.name')->description(fn(Ticket $ticket) => $ticket->site()->first()->address)->wrap(),
                 TextColumn::make('employee.name')->wrap(),
                 TextColumn::make('created_at')
-                    ->formatStateUsing(fn($state) => Carbon::parse($state)->format('d M Y'))
+                    ->formatStateUsing(fn($state) => Carbon::parse($state)->format('d F Y'))
                     ->label('Created At')
                     ->wrap()
             ])
@@ -56,11 +57,7 @@ class TicketResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
+            ->bulkActions([]);
     }
 
     public static function getRelations(): array
@@ -76,7 +73,6 @@ class TicketResource extends Resource
             'index' => Pages\ListTickets::route('/'),
             'create' => Pages\CreateTicket::route('/create'),
             'view' => Pages\ViewTicket::route('/{record}'),
-            'edit' => Pages\EditTicket::route('/{record}/edit'),
         ];
     }
 }

@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             CustomerSeeder::class,
             SiteSeeder::class,
             TicketSeeder::class,
+            InquirySeeder::class,
         ]);
     }
 

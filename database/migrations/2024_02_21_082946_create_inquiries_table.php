@@ -16,8 +16,10 @@ return new class extends Migration
         Schema::create('inquiries', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Customer::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Site::class)->constrained()->cascadeOnDelete();
             $table->string('title');
             $table->string('information');
+            $table->enum('status', ['NEED_REVIEW', 'APPROVED', 'DISMISS']);
             $table->softDeletes();
             $table->timestamps();
             $table->index(['id', 'customer_id']);

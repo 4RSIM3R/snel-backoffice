@@ -5,10 +5,12 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\InquiryResource\Pages;
 use App\Filament\Resources\InquiryResource\RelationManagers;
 use App\Models\Inquiry;
+use App\Utils\StyleUtils;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -33,20 +35,26 @@ class InquiryResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('id'),
+                TextColumn::make('status')
+                    ->color(fn($state) => StyleUtils::getStatusColor(strtolower($state)))
+                    ->extraAttributes(['text-sm'])
+                    ->formatStateUsing(fn($state) => ucwords(str_replace('_', ' ', strtolower($state))))
+                    ->wrap(),
+                TextColumn::make('customer.name')->wrap(),
+                TextColumn::make('site.name')
+                    ->description(fn (Inquiry $inquiry) => $inquiry->site()->first()->address)
+                    ->wrap(),
+                TextColumn::make('title')->wrap(),
+
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
+            ->bulkActions([]);
     }
 
     public static function getRelations(): array
@@ -60,9 +68,7 @@ class InquiryResource extends Resource
     {
         return [
             'index' => Pages\ListInquiries::route('/'),
-            'create' => Pages\CreateInquiry::route('/create'),
             'view' => Pages\ViewInquiry::route('/{record}'),
-            'edit' => Pages\EditInquiry::route('/{record}/edit'),
         ];
     }
 }
