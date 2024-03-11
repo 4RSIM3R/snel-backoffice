@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->foreignIdFor(Customer::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Site::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Employee::class)->constrained()->cascadeOnDelete();
+            $table->date('date');
             $table->string('number');
             $table->string('title');
             $table->string('information');
