@@ -7,4 +7,5 @@ use App\Http\Controllers\Controller;
 class CustomerInquiryController extends Controller
 {
 
+
 }
