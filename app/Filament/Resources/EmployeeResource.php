@@ -5,8 +5,10 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\EmployeeResource\Pages;
 use App\Models\Employee;
 use App\Utils\ColumnUtils;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Resources\Pages\EditRecord;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
@@ -14,6 +16,7 @@ use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Rawilk\FilamentPasswordInput\Password;
 
 class EmployeeResource extends Resource
 {
@@ -27,9 +30,14 @@ class EmployeeResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name')->required(),
-                TextInput::make('email')->required(),
-                TextInput::make('password')->required(),
+                Section::make()->schema([
+                    TextInput::make('name')->required(),
+                    TextInput::make('email')->required(),
+                    TextInput::make('phone_number')->required(),
+                    Password::make('password')
+                        ->required()
+                        ->hidden(fn($livewire) => $livewire instanceof EditRecord),
+                ])
             ]);
     }
 
