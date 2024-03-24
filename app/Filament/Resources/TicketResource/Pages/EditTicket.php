@@ -5,6 +5,8 @@ namespace App\Filament\Resources\TicketResource\Pages;
 use App\Filament\Resources\TicketResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Database\Eloquent\Model;
+use Mockery\Exception;
 
 class EditTicket extends EditRecord
 {
@@ -17,4 +19,15 @@ class EditTicket extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+
+    protected function handleRecordUpdate(Model $record, array $data): Model
+    {
+
+        if ($data["status"] != null) {
+            throw new Exception("Hello");
+        }
+
+        return $record;
+    }
+
 }

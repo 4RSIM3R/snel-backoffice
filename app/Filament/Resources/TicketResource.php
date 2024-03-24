@@ -3,11 +3,20 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\TicketResource\Pages;
+use App\Models\Customer;
+use App\Models\Site;
 use App\Models\Ticket;
 use App\Tables\Columns\StatusColumn;
 use App\Utils\StyleUtils;
 use Carbon\Carbon;
+use Filament\Actions\CreateAction;
 use Filament\Forms;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Support\Colors\Color;
@@ -18,6 +27,8 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Collection;
+use Rawilk\FilamentQuill\Filament\Forms\Components\QuillEditor;
 
 class TicketResource extends Resource
 {
@@ -31,7 +42,36 @@ class TicketResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Section::make()->schema([
+                    Select::make('type')->options(Ticket::mapType),
+                    TextInput::make('title')->required(),
+                    QuillEditor::make('information')->required(),
+                    Select::make('customer_id')->label('Customer')
+                        ->relationship(name: 'customer', titleAttribute: 'name', modifyQueryUsing: fn(Builder $query) => $query->whereHas('sites'))
+                        ->preload()->searchable()->live()
+                        ->disabledOn('edit')
+                        ->required(),
+                    Select::make('site_id')->label('Site')
+                        ->options(fn(Forms\Get $get): Collection => Site::query()
+                            ->where('customer_id', '=', $get('customer_id'))
+                            ->pluck('name', 'id'))
+                        ->live()
+                        ->searchable()
+                        ->required()
+                        ->disabledOn('edit'),
+                    Select::make('employee_id')
+                        ->label('Employee')
+                        ->relationship(name: 'employee', titleAttribute: 'name')
+                        ->preload()
+                        ->searchable()
+                        ->live()
+                        ->required(),
+                    DatePicker::make('date')
+                        ->required(),
+                    SpatieMediaLibraryFileUpload::make('ticket_image')
+                        ->multiple()
+                        ->required()
+                ])
             ]);
     }
 
@@ -40,6 +80,7 @@ class TicketResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('number')->wrap(),
+                TextColumn::make('type')->wrap(),
                 TextColumn::make('status')
                     ->color(fn($state) => StyleUtils::getStatusColor(strtolower($state)))
                     ->extraAttributes(['text-sm'])
@@ -48,9 +89,13 @@ class TicketResource extends Resource
                 TextColumn::make('customer.name')->wrap(),
                 TextColumn::make('site.name')->description(fn(Ticket $ticket) => $ticket->site()->first()->address)->wrap(),
                 TextColumn::make('employee.name')->wrap(),
-                TextColumn::make('created_at')
+                TextColumn::make('updated_at')
                     ->formatStateUsing(fn($state) => Carbon::parse($state)->format('d F Y'))
-                    ->label('Created At')
+                    ->label('Last Update')
+                    ->wrap(),
+                TextColumn::make('date')
+                    ->formatStateUsing(fn($state) => Carbon::parse($state)->format('d F Y'))
+                    ->label('Date')
                     ->wrap()
             ])
             ->filters([
@@ -58,7 +103,6 @@ class TicketResource extends Resource
             ])
             ->actions([
                 ViewAction::make(),
-
             ])
             ->bulkActions([]);
     }
@@ -77,6 +121,7 @@ class TicketResource extends Resource
             'calendar' => Pages\CalendarTicket::route('/calendar'),
             'create' => Pages\CreateTicket::route('/create'),
             'view' => Pages\ViewTicket::route('/{record}'),
+            'edit' => Pages\EditTicket::route('/{record}/edit'),
         ];
     }
 }
