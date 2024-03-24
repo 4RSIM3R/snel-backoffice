@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\HasMedia;
@@ -17,9 +18,20 @@ class Ticket extends Model implements HasMedia
 
     protected $guarded = [];
 
-    public const mapType = ['RECORDING' => 'Recording', 'REGULAR' => 'Regular', 'PRIORITY' => 'Priority'];
+    public const mapType = [
+        'RECORDING' => 'Recording',
+        'REGULAR' => 'Regular',
+        'PRIORITY' => 'Priority'
+    ];
 
-    public const mapStatus = ['RECORDING' => 'Recording', 'REGULAR' => 'Regular', 'PRIORITY' => 'Priority'];
+    public const mapStatus =  [
+        'ADMIN_APPROVED' => 'Admin Approved',
+        'CUSTOMER_APPROVED' => 'Customer Approved',
+        'WORKING' => 'Working',
+        'NEED_ADMIN_REVIEW' => 'Need Admin Review',
+        'DONE' => 'Done',
+        'CANCEL' => 'Cancel',
+    ];
 
     public function customer(): BelongsTo
     {
@@ -29,6 +41,11 @@ class Ticket extends Model implements HasMedia
     public function site(): BelongsTo
     {
         return $this->belongsTo(Site::class);
+    }
+
+    public function histories(): HasMany
+    {
+        return $this->hasMany(TicketHistory::class);
     }
 
     public function employee(): BelongsTo
@@ -56,7 +73,6 @@ class Ticket extends Model implements HasMedia
     {
         parent::boot();
         static::creating(function ($ticket) {
-            $now = Carbon::now()->format('d-m-Y');
             $customer = $ticket->customer()->first();
             $company = $customer->company()->first();
             $ticket->number = sprintf('%s/%s/%s/%s', $company->business_name, $customer->id, $company->id, $ticket->type);

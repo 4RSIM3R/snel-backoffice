@@ -9,6 +9,7 @@ use App\Models\Ticket;
 use App\Tables\Columns\StatusColumn;
 use App\Utils\StyleUtils;
 use Carbon\Carbon;
+use Exception;
 use Filament\Actions\CreateAction;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
@@ -24,6 +25,7 @@ use Filament\Tables;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -44,6 +46,7 @@ class TicketResource extends Resource
             ->schema([
                 Section::make()->schema([
                     Select::make('type')->options(Ticket::mapType),
+                    Select::make('status')->options(Ticket::mapStatus)->default('ADMIN_APPROVED'),
                     TextInput::make('title')->required(),
                     QuillEditor::make('information')->required(),
                     Select::make('customer_id')->label('Customer')
@@ -75,6 +78,9 @@ class TicketResource extends Resource
             ]);
     }
 
+    /**
+     * @throws Exception
+     */
     public static function table(Table $table): Table
     {
         return $table
@@ -99,7 +105,20 @@ class TicketResource extends Resource
                     ->wrap()
             ])
             ->filters([
-
+                SelectFilter::make('status')->options(array_flip(Ticket::mapStatus)),
+                SelectFilter::make('type')->options(array_flip(Ticket::mapType)),
+                SelectFilter::make('customer')
+                    ->relationship('customer', 'name')
+                    ->searchable()
+                    ->preload(),
+                SelectFilter::make('employee')
+                    ->relationship('employee', 'name')
+                    ->searchable()
+                    ->preload(),
+                SelectFilter::make('site')
+                    ->relationship('site', 'name')
+                    ->searchable()
+                    ->preload(),
             ])
             ->actions([
                 ViewAction::make(),
@@ -110,7 +129,7 @@ class TicketResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            TicketResource\RelationManagers\HistoriesRelationManager::class,
         ];
     }
 

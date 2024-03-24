@@ -22,6 +22,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Hash;
+use Rawilk\FilamentPasswordInput\Password;
 
 class CustomerResource extends Resource
 {
@@ -41,9 +42,8 @@ class CustomerResource extends Resource
                         TextInput::make('name')->required(),
                         TextInput::make('email')->required(),
                         TextInput::make('phone_number')->required(),
-                        TextInput::make('password')->required()
+                        Password::make('password')->required()
                             ->password()
-                            ->revealable()
                             ->hidden(fn($livewire) => $livewire instanceof EditRecord)
                             ->required(),
                         Select::make('company_id')

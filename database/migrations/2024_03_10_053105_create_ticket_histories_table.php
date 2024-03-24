@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('number');
             $table->string('title');
             $table->text('information');
-            $table->enum('status', ['STARTING', 'CHECKIN', 'WORKING', 'ESCALATED', 'DONE']);
+            $table->enum('status', ['STARTING', 'CHECKIN', 'WORKING', 'ESCALATED', 'DONE'])->default('STARTING');
             $table->timestamps();
         });
     }

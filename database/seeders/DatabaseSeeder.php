@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             SiteSeeder::class,
             TicketSeeder::class,
             InquirySeeder::class,
+            TicketHistorySeeder::class,
         ]);
     }
 

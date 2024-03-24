@@ -2,10 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Models\Ticket;
+use App\Models\TicketHistory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\TicketHistory>
+ * @extends Factory<TicketHistory>
  */
 class TicketHistoryFactory extends Factory
 {
@@ -16,8 +18,13 @@ class TicketHistoryFactory extends Factory
      */
     public function definition(): array
     {
+        $ticket = Ticket::query()->inRandomOrder()->first();
+        $employee = $ticket->employee->id;
         return [
-            //
+            'ticket_id' => $ticket->id,
+            'employee_id' => $employee,
+            'title' => $this->faker->word(),
+            'information' => $this->faker->paragraph(1),
         ];
     }
 }
