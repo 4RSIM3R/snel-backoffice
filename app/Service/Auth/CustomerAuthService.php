@@ -24,15 +24,13 @@ class CustomerAuthService extends EloquentService
 
             $guard = Auth::guard("customer");
             $token = $guard->attempt($payload);
-            $refreshToken = $guard->setTTL(7200)->attempt($payload);
 
-            if (!$token && !$refreshToken) {
+            if (!$token) {
                 return new Exception("Your credential is incorrect");
             }
 
             return [
                 "token" => $token,
-                "refresh_token" => $refreshToken,
                 "expired_in" => $guard->factory()->getTTL(),
             ];
 
@@ -41,5 +39,8 @@ class CustomerAuthService extends EloquentService
         }
 
     }
+
+
+
 
 }

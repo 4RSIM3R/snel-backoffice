@@ -7,6 +7,7 @@ use App\Http\Requests\LoginRequest;
 use App\Service\Auth\CustomerAuthService;
 use App\Utils\WebResponseUtils;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class CustomerAuthController extends Controller
 {
