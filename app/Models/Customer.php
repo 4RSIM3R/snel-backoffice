@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticate;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class Customer extends Model
+class Customer extends Authenticate implements JWTSubject
 {
     use HasFactory, SoftDeletes;
 
@@ -25,4 +26,16 @@ class Customer extends Model
         return $this->hasMany(Site::class);
     }
 
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims(): array
+    {
+        return [
+            'name' => $this->name,
+            'email' => $this->email,
+        ];
+    }
 }
