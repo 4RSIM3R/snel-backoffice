@@ -40,7 +40,16 @@ class CustomerAuthService extends EloquentService
 
     }
 
+    public function logout(): bool|Exception
+    {
+        try {
+            Auth::guard("customer")->logout();
 
+            return true;
+        } catch (Exception $exception) {
+            return $exception;
+        }
+    }
 
 
 }

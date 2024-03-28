@@ -7,7 +7,6 @@ use App\Http\Requests\LoginRequest;
 use App\Service\Auth\CustomerAuthService;
 use App\Utils\WebResponseUtils;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class CustomerAuthController extends Controller
 {
@@ -25,9 +24,10 @@ class CustomerAuthController extends Controller
         return WebResponseUtils::response($result, "Customer Success Login");
     }
 
-    public function logout()
+    public function logout(): JsonResponse
     {
-
+        $result = $this->service->logout();
+        return WebResponseUtils::response($result, "Customer Success Login");
     }
 
     public function refresh()
