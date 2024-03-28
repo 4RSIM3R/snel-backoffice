@@ -8,7 +8,7 @@ use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class CustomerAuthService extends EloquentService
+class CustomerAuthService
 {
 
     public function login(array $payload): array|Exception
