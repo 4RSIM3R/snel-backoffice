@@ -1,9 +1,10 @@
 <?php
 
 use App\Http\Controllers\Auth\CustomerAuthController;
+use App\Http\Controllers\Inquiry\CustomerInquiryController;
 use Illuminate\Support\Facades\Route;
 
-Route::group(["prefix" => "inquiry/customer"], function () {
-    Route::get('get', [CustomerAuthController::class, 'login']);
-    Route::post('create', [CustomerAuthController::class, 'refresh']);
+Route::group(["prefix" => "inquiry/customer", "middleware" => ["jwt.customer"]], function () {
+    Route::get('get', [CustomerInquiryController::class, 'all']);
+    Route::post('create', [CustomerInquiryController::class, 'create']);
 });

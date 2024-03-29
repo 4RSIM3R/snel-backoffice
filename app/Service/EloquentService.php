@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 class EloquentService
 {
 
-    public Model $model;
+    protected Model $model;
 
     public function __construct(Model $model)
     {
