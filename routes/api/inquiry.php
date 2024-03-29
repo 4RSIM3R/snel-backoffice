@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Auth\CustomerAuthController;
 use App\Http\Controllers\Inquiry\CustomerInquiryController;
 use Illuminate\Support\Facades\Route;
 

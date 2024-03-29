@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Ticket;
+namespace App\Http\Controllers\Unit;
 
 use App\Http\Controllers\Controller;
 
-class CustomerTicketController extends Controller
+class CustomerUnitController extends Controller
 {
 
     public function all()
