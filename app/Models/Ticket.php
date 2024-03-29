@@ -18,6 +18,10 @@ class Ticket extends Model implements HasMedia
 
     protected $guarded = [];
 
+    protected $appends = ['photo'];
+
+    protected $hidden = ['media'];
+
     public const mapType = [
         'RECORDING' => 'Recording',
         'REGULAR' => 'Regular',
@@ -55,13 +59,13 @@ class Ticket extends Model implements HasMedia
 
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection('ticket_image');
+        $this->addMediaCollection('photo');
     }
 
-    public function getTicketImageAttribute(): Collection
+    public function getPhotoAttribute(): Collection
     {
         $images = collect();
-        $this->getMedia('product_thumbnail')
+        $this->getMedia('photo')
             ->each(function ($image) use ($images) {
                 $images->push($image->getUrl());
             });
