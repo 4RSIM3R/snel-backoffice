@@ -24,6 +24,8 @@ class CustomerInquiryController extends Controller
     public function all(Request $request): JsonResponse
     {
         $page = $request->get("page");
+        $status = $request->get("");
+
         $result = $this->service->allByAuth('customer', true, $page);
         return WebResponseUtils::response($result, "Success Getting All Inquiry");
     }

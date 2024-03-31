@@ -33,13 +33,14 @@ class CustomerTicketController extends Controller
             ['customer_id', '=', Auth::guard('customer')->id()],
         ];
 
-        $result = $this->service->all(true,  $page, [], $conditions);
+        $result = $this->service->all(true, $page, [], $conditions);
         return WebResponseUtils::response($result, "Success Getting All Ticket");
     }
 
-    public function detail($id)
+    public function detail($id): JsonResponse
     {
-
+        $result = $this->service->findById($id, ['site', 'employee', 'histories']);
+        return WebResponseUtils::response($result, "Success Getting All Ticket");
     }
 
 }

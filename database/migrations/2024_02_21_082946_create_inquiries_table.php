@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignIdFor(Site::class)->constrained()->cascadeOnDelete();
             $table->string('title');
             $table->string('information');
-            $table->enum('status', ['NEED_REVIEW', 'APPROVED', 'DISMISS']);
+            $table->enum('status', ['NEED_REVIEW', 'APPROVED', 'DISMISS'])->default('NEED_REVIEW');
             $table->softDeletes();
             $table->timestamps();
             $table->index(['id', 'customer_id']);
