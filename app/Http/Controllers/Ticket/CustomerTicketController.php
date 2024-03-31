@@ -34,7 +34,7 @@ class CustomerTicketController extends Controller
         ];
 
         $result = $this->service->all(true,  $page, [], $conditions);
-        return WebResponseUtils::response($result, "Success Getting All Inquiry");
+        return WebResponseUtils::response($result, "Success Getting All Ticket");
     }
 
     public function detail($id)
