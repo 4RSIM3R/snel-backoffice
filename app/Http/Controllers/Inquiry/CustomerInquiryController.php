@@ -9,6 +9,7 @@ use App\Service\Inquiry\InquiryService;
 use App\Utils\WebResponseUtils;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class CustomerInquiryController extends Controller
@@ -24,9 +25,18 @@ class CustomerInquiryController extends Controller
     public function all(Request $request): JsonResponse
     {
         $page = $request->get("page");
-        $status = $request->get("");
+        $status = $request->get("status", "NEED_REVIEW");
+        $start = $request->get("start", Carbon::now()->firstOfMonth());
+        $end = $request->get("end", Carbon::now()->lastOfMonth());
 
-        $result = $this->service->allByAuth('customer', true, $page);
+        $conditions = [
+            ['created_at', '>=', $start],
+            ['created_at', '<=', $end],
+            ['customer_id', '=', Auth::guard('customer')->id()],
+            ['status', '<=', $status],
+        ];
+
+        $result = $this->service->all(true, $page, ['site'], $conditions);
         return WebResponseUtils::response($result, "Success Getting All Inquiry");
     }
 
