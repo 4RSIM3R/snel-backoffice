@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Customer;
 use App\Models\Site;
 use App\Models\Unit;
 use Illuminate\Database\Migrations\Migration;
@@ -16,9 +17,10 @@ return new class extends Migration
         Schema::create('site_has_units', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Site::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignIdFor(Customer::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignIdFor(Unit::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
-            $table->index(['site_id', 'unit_id']);
+            $table->index(['site_id', 'unit_id', 'customer_id']);
         });
     }
 

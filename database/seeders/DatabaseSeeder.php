@@ -18,6 +18,9 @@ class DatabaseSeeder extends Seeder
             TicketSeeder::class,
             InquirySeeder::class,
             TicketHistorySeeder::class,
+            SiteSeeder::class,
+            UnitSeeder::class,
+            SiteHasUnitSeeder::class,
         ]);
     }
 
