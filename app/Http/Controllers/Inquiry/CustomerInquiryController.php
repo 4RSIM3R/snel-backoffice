@@ -33,7 +33,7 @@ class CustomerInquiryController extends Controller
             ['created_at', '>=', $start],
             ['created_at', '<=', $end],
             ['customer_id', '=', Auth::guard('customer')->id()],
-            ['status', '<=', $status],
+            ['status', '=', $status],
         ];
 
         $result = $this->service->all(true, $page, ['site'], $conditions);
