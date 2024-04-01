@@ -18,5 +18,4 @@ class CustomerTicketService extends EloquentService
     }
 
 
-
 }

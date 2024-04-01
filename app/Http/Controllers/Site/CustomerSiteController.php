@@ -26,7 +26,7 @@ class CustomerSiteController extends Controller
 
     public function detail($id): JsonResponse
     {
-        $result = $this->service->findById($id);
+        $result = $this->service->findById($id, ['units']);
         return WebResponseUtils::response($result, "Success Getting Site Detail");
     }
 
