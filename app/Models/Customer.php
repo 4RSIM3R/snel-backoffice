@@ -16,6 +16,8 @@ class Customer extends Authenticate implements JWTSubject
 
     protected $guarded = [];
 
+    protected $hidden = ['password'];
+
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);

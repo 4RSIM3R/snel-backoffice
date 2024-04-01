@@ -13,6 +13,8 @@ class Employee extends Authenticate
 
     protected $guarded = [];
 
+    protected $hidden = ['password'];
+
     public function tickets(): HasMany
     {
         return $this->hasMany(Ticket::class);
