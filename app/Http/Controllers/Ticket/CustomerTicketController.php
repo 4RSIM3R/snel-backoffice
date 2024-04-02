@@ -33,7 +33,7 @@ class CustomerTicketController extends Controller
             ['customer_id', '=', Auth::guard('customer')->id()],
         ];
 
-        $result = $this->service->all(true, $page, ['site', 'employee'], $conditions);
+        $result = $this->service->all(false, $page, ['site', 'employee'], $conditions);
         return WebResponseUtils::response($result, "Success Getting All Ticket");
     }
 

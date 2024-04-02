@@ -20,7 +20,7 @@ class CustomerSiteController extends Controller
 
     public function all(): JsonResponse
     {
-        $result = $this->service->allByAuth('customer',true);
+        $result = $this->service->allByAuth('customer',false);
         return WebResponseUtils::response($result, "Success Getting All Site");
     }
 

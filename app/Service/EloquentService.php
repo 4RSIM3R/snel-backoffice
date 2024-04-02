@@ -19,7 +19,7 @@ class EloquentService
         $this->model = $model;
     }
 
-    public function all($paginate = false, $page = 1, $relations = [], $whereConditions = [], string|null $sort = null)
+    public function all($paginate = false, $page = 1, $relations = [], $whereConditions = [], string|null $sort = null): Collection|Exception|array
     {
         try {
             $model = $this->model::query()
@@ -49,14 +49,14 @@ class EloquentService
                     'next_page' => (int)mb_substr($model->nextPageUrl(), -1) ?: null
                 ];
             } else {
-                return $this->model->all();
+                return $model->get();
             }
         } catch (Exception $exception) {
             return $exception;
         }
     }
 
-    public function allByAuth(string $guard, $paginate = false, $page = 1)
+    public function allByAuth(string $guard, $paginate = false, $page = 1): Collection|Exception|array
     {
         try {
             $modelId = Auth::guard($guard)->id();

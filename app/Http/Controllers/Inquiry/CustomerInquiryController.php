@@ -36,7 +36,7 @@ class CustomerInquiryController extends Controller
             ['status', '=', $status],
         ];
 
-        $result = $this->service->all(true, $page, ['site'], $conditions);
+        $result = $this->service->all(false, $page, ['site'], $conditions);
         return WebResponseUtils::response($result, "Success Getting All Inquiry");
     }
 
