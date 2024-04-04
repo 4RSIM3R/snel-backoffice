@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Ticket;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateTicketRequest;
 use App\Models\Ticket;
 use App\Service\Ticket\CustomerTicketService;
 use App\Utils\WebResponseUtils;
@@ -40,6 +41,12 @@ class CustomerTicketController extends Controller
     public function detail($id): JsonResponse
     {
         $result = $this->service->findById($id, ['site', 'employee', 'histories', 'histories.employee']);
+        return WebResponseUtils::response($result, "Success Getting All Ticket");
+    }
+
+    function update($id, UpdateTicketRequest $request): JsonResponse
+    {
+        $result = $this->service->update($id, []);
         return WebResponseUtils::response($result, "Success Getting All Ticket");
     }
 

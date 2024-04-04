@@ -8,7 +8,10 @@ use App\Http\Requests\LoginRequest;
 class EmployeeAuthController extends Controller
 {
 
+    public function __construct()
+    {
 
+    }
 
     public function login(LoginRequest $request)
     {
