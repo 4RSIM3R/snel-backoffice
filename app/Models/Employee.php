@@ -6,8 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticate;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class Employee extends Authenticate
+class Employee extends Authenticate implements JWTSubject
 {
     use HasFactory, SoftDeletes;
 
@@ -25,4 +26,16 @@ class Employee extends Authenticate
         return $this->hasMany(TicketHistory::class);
     }
 
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims(): array
+    {
+        return [
+            'name' => $this->name,
+            'email' => $this->email,
+        ];
+    }
 }

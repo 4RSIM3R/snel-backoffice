@@ -30,9 +30,4 @@ class CustomerAuthController extends Controller
         return WebResponseUtils::response($result, "Customer Success Login");
     }
 
-    public function refresh()
-    {
-
-    }
-
 }
