@@ -22,12 +22,21 @@ class EmployeeTicketController extends Controller
         $this->service = new EmployeeTicketService($model);
     }
 
-    public function all(Request $request): JsonResponse
+    public function allRegular(Request $request): JsonResponse
     {
         $start = $request->get("start", Carbon::now()->firstOfMonth());
         $end = $request->get("end", Carbon::now()->lastOfMonth());
         $id = Auth::guard("employee")->id();
-        $result = $this->service->get($start, $end, $id);
+        $result = $this->service->get($start, $end, $id, ['REGULAR', 'PRIORITY']);
+        return WebResponseUtils::response($result, "Success Getting All Ticket");
+    }
+
+    public function allRecording(Request $request): JsonResponse
+    {
+        $start = $request->get("start", Carbon::now()->firstOfMonth());
+        $end = $request->get("end", Carbon::now()->lastOfMonth());
+        $id = Auth::guard("employee")->id();
+        $result = $this->service->get($start, $end, $id, ['RECORDING']);
         return WebResponseUtils::response($result, "Success Getting All Ticket");
     }
 

@@ -19,7 +19,7 @@ class EmployeeTicketService extends EloquentService
         parent::__construct($model);
     }
 
-    public function get(string $start, string $end, $id): Collection|Exception|array
+    public function get(string $start, string $end, $id, array $types): Collection|Exception|array
     {
 
         try {
@@ -28,8 +28,9 @@ class EmployeeTicketService extends EloquentService
             return Ticket::query()->whereBetween('date', [$start, $end])
                 ->where('employee_id', $id)
                 ->whereIn('status', $statuses)
-                ->with(['customer'])
-                ->get(); // Return the result
+                ->whereIn('type', $types)
+                ->with(['customer', 'site'])
+                ->get();
         } catch (Exception $exception) {
             return $exception;
         }
