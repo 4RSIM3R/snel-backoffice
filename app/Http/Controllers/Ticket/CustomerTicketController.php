@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Ticket;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ApproveRejectTicketRequest;
 use App\Http\Requests\UpdateTicketRequest;
 use App\Models\Ticket;
 use App\Service\Ticket\CustomerTicketService;
@@ -44,9 +45,11 @@ class CustomerTicketController extends Controller
         return WebResponseUtils::response($result, "Success Getting All Ticket");
     }
 
-    function update($id, UpdateTicketRequest $request): JsonResponse
+    function update($id, ApproveRejectTicketRequest $request): JsonResponse
     {
-        $result = $this->service->update($id, []);
+        $data = $request->all();
+        if ($data['status'] == "CANCEL") $data['canceled_by'] = 'customer';
+        $result = $this->service->update($id, $data);
         return WebResponseUtils::response($result, "Success Getting All Ticket");
     }
 
