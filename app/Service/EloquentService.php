@@ -44,9 +44,9 @@ class EloquentService
 
                 return [
                     'data' => $model->items(),
-                    'prev_page' => (int)mb_substr($model->previousPageUrl(), -1) ?: null,
+                    'prev_page' => (int) mb_substr($model->previousPageUrl(), -1) ?: null,
                     'current_page' => $model->currentPage(),
-                    'next_page' => (int)mb_substr($model->nextPageUrl(), -1) ?: null
+                    'next_page' => (int) mb_substr($model->nextPageUrl(), -1) ?: null
                 ];
             } else {
                 return $model->get();
@@ -68,9 +68,9 @@ class EloquentService
 
                 return [
                     'data' => $model->items(),
-                    'prev_page' => (int)mb_substr($model->previousPageUrl(), -1) ?: null,
+                    'prev_page' => (int) mb_substr($model->previousPageUrl(), -1) ?: null,
                     'current_page' => $model->currentPage(),
-                    'next_page' => (int)mb_substr($model->nextPageUrl(), -1) ?: null
+                    'next_page' => (int) mb_substr($model->nextPageUrl(), -1) ?: null
                 ];
             } else {
                 return $this->model::query()->where($guard . '_id', $modelId)->get();
@@ -140,8 +140,6 @@ class EloquentService
 
             DB::commit();
 
-//            ResponseCache::clear();
-
             return $model->fresh();
         } catch (Exception $exception) {
             DB::rollBack();
@@ -190,7 +188,7 @@ class EloquentService
 
             DB::commit();
 
-//            ResponseCache::clear();
+            //            ResponseCache::clear();
 
             return true;
         } catch (Exception $exception) {

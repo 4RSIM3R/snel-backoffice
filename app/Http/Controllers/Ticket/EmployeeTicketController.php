@@ -27,8 +27,9 @@ class EmployeeTicketController extends Controller
     {
         $start = $request->get("start", Carbon::now()->firstOfMonth());
         $end = $request->get("end", Carbon::now()->lastOfMonth());
+        $status = $request->get("status", "CUSTOMER_APPROVED");
         $id = Auth::guard("employee")->id();
-        $result = $this->service->get($start, $end, $id, ['REGULAR', 'PRIORITY']);
+        $result = $this->service->get($start, $end, $id, ['REGULAR', 'PRIORITY'], $status);
         return WebResponseUtils::response($result, "Success Getting All Ticket");
     }
 
@@ -36,8 +37,9 @@ class EmployeeTicketController extends Controller
     {
         $start = $request->get("start", Carbon::now()->firstOfMonth());
         $end = $request->get("end", Carbon::now()->lastOfMonth());
+        $status = $request->get("status", "CUSTOMER_APPROVED");
         $id = Auth::guard("employee")->id();
-        $result = $this->service->get($start, $end, $id, ['RECORDING']);
+        $result = $this->service->get($start, $end, $id, ['RECORDING'], $status);
         return WebResponseUtils::response($result, "Success Getting All Ticket");
     }
 
@@ -50,12 +52,17 @@ class EmployeeTicketController extends Controller
     function checkin($id, CheckinTicketRequest $request): JsonResponse
     {
         $status = $request->get("status");
-        $result = $this->service->update($id, ["status"=> $status]);
+        $result = $this->service->update($id, ["status" => $status]);
         return WebResponseUtils::response($result, "Success Check-In Ticket");
     }
 
-    public function submit($id, SubmitTicketRequest $request)
+    public function submit($id, SubmitTicketRequest $request): JsonResponse
     {
+        $payload = $request->except("photo");
+        $payload["employee_id"] = Auth::guard("employee")->id();
+        $payload["ticket_id"] = $id;
+        $result = $this->service->submitWork($payload, $request->allFiles());
+        return WebResponseUtils::response($result, "Success Creating Inquiry");
 
     }
 
