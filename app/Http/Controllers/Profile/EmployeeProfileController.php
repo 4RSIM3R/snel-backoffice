@@ -12,7 +12,7 @@ class EmployeeProfileController extends Controller
 
     public function get(): JsonResponse
     {
-        $user = Auth::guard('employee')->user()->load(['company']);
+        $user = Auth::guard('employee')->user();
         return WebResponseUtils::response($user, "Success Getting All Ticket");
     }
 

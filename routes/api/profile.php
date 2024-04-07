@@ -8,6 +8,6 @@ Route::group(["prefix" => "profile/customer", "middleware" => ["jwt.customer"]],
     Route::get('', [CustomerProfileController::class, 'get']);
 });
 
-Route::group(["prefix" => "profile/employee", "middleware" => ["jwt.customer"]], function () {
+Route::group(["prefix" => "profile/employee", "middleware" => ["jwt.employee"]], function () {
     Route::get('', [EmployeeProfileController::class, 'get']);
 });

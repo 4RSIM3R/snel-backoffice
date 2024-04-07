@@ -10,7 +10,7 @@ Route::group(["prefix" => "ticket/customer", "middleware" => ["jwt.customer"]], 
     Route::get('update/{id}', [CustomerTicketController::class, 'update']);
 });
 
-Route::group(["prefix" => "ticket/employee"], function () {
+Route::group(["prefix" => "ticket/employee", "middleware" => ["jwt.employee"]], function () {
     Route::get('get-regular', [EmployeeTicketController::class, 'allRegular']);
     Route::get('get-recording', [EmployeeTicketController::class, 'allRecording']);
     Route::get('detail/{id}', [EmployeeTicketController::class, 'detail']);

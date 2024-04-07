@@ -23,7 +23,7 @@ class EmployeeAuthService
                 return new Exception("The provided credential is incorrect");
             }
 
-            $guard = Auth::guard("customer");
+            $guard = Auth::guard("employee");
             $token = $guard->attempt($payload);
 
             if (!$token) {
@@ -44,7 +44,7 @@ class EmployeeAuthService
     public function logout(): bool|Exception
     {
         try {
-            Auth::guard("customer")->logout();
+            Auth::guard("employee")->logout();
 
             return true;
         } catch (Exception $exception) {

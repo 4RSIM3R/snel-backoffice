@@ -23,7 +23,7 @@ class EmployeeTicketService extends EloquentService
     {
 
         try {
-            $statuses = ['CUSTOMER_APPROVED', 'WORKING', 'NEED_ADMIN_REVIEW', 'DONE'];
+            $statuses = ['CUSTOMER_APPROVED', 'WORKING', 'NEED_ADMIN_REVIEW'];
 
             return Ticket::query()->whereBetween('date', [$start, $end])
                 ->where('employee_id', $id)
