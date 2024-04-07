@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Ticket;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CheckinTicketRequest;
 use App\Http\Requests\SubmitTicketRequest;
 use App\Models\Ticket;
 use App\Service\Ticket\EmployeeTicketService;
@@ -46,7 +47,14 @@ class EmployeeTicketController extends Controller
         return WebResponseUtils::response($result, "Success Getting All Ticket");
     }
 
-    public function submit(SubmitTicketRequest $request)
+    function checkin($id, CheckinTicketRequest $request): JsonResponse
+    {
+        $status = $request->get("status");
+        $result = $this->service->update($id, ["status"=> $status]);
+        return WebResponseUtils::response($result, "Success Check-In Ticket");
+    }
+
+    public function submit($id, SubmitTicketRequest $request)
     {
 
     }
