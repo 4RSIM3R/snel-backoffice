@@ -14,13 +14,14 @@ class Unit extends Model implements HasMedia
 
     protected $guarded = [];
 
-    protected $appends = ['photo'];
+    protected $appends = ['photo', 'excel'];
 
     protected $hidden = ['media'];
 
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('photo');
+        $this->addMediaCollection('excel');
     }
 
     public function getPhotoAttribute(): Collection
@@ -31,6 +32,11 @@ class Unit extends Model implements HasMedia
                 $images->push($image->getUrl());
             });
         return $images;
+    }
+
+    public function getExcelAttribute()
+    {
+        return $this->getMedia('excel')->first()->getUrl();
     }
 
 }
