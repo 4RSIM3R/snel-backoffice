@@ -3,32 +3,24 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\TicketResource\Pages;
-use App\Models\Customer;
 use App\Models\Site;
 use App\Models\Ticket;
-use App\Tables\Columns\StatusColumn;
 use App\Utils\StyleUtils;
 use Carbon\Carbon;
 use Exception;
-use Filament\Actions\CreateAction;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Support\Colors\Color;
-use Filament\Tables;
-use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Collection;
 use Rawilk\FilamentQuill\Filament\Forms\Components\QuillEditor;
 
@@ -45,8 +37,8 @@ class TicketResource extends Resource
         return $form
             ->schema([
                 Section::make()->schema([
-                    Select::make('type')->options(Ticket::mapType),
-                    Select::make('status')->options(Ticket::mapStatus)->default('ADMIN_APPROVED'),
+                    Select::make('type')->options(Ticket::mapType)->required(),
+                    Select::make('status')->options(Ticket::mapStatus)->default('ADMIN_APPROVED')->required(),
                     TextInput::make('title')->required(),
                     QuillEditor::make('information')->required(),
                     Select::make('customer_id')->label('Customer')
