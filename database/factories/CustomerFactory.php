@@ -23,4 +23,20 @@ class CustomerFactory extends Factory
             'phone_number' => $this->faker->numerify('+628##########'),
         ];
     }
+
+    public function customer()
+    {
+
+        return $this->state(function () {
+            return [
+                'company_id' => Company::query()->inRandomOrder()->first()->id,
+                'name' => 'customer',
+                'email' => 'customer@nexteam.id',
+                'password' => Hash::make('password'),
+                'phone_number' => $this->faker->numerify('+628##########'),
+            ];
+        });
+
+    }
+
 }

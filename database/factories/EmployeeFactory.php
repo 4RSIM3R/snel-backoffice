@@ -26,4 +26,17 @@ class EmployeeFactory extends Factory
             'phone_number' => $this->faker->numerify('+628##########'),
         ];
     }
+
+    public function employee()
+    {
+        return $this->state(function () {
+            return [
+                'name' => $this->faker->name,
+                'email' => 'employee@nexteam.id',
+                'password' => Hash::make('password'),
+                'phone_number' => $this->faker->numerify('+628##########'),
+            ];
+        });
+    }
+
 }
