@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Ticket;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ApproveRejectTicketRequest;
-use App\Http\Requests\UpdateTicketRequest;
 use App\Models\Ticket;
 use App\Service\Ticket\CustomerTicketService;
 use App\Utils\WebResponseUtils;

@@ -3,12 +3,11 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class SubmitTicketRequest extends ValidationRequest
+class RecordUnitRequest extends ValidationRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
+ 
     public function authorize(): bool
     {
         return true;
@@ -22,10 +21,8 @@ class SubmitTicketRequest extends ValidationRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string',
-            'information'=> 'required|string',
-            'ticket_id' => 'required|exists:tickets,id',
-            'photo.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10240'
+            'ticket_id' => ['required', Rule::exists('tickets','id')],
+            'site_id' => ['required', Rule::exists('sites','id')],
         ];
     }
 }

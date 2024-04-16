@@ -15,4 +15,5 @@ Route::group(["prefix" => "ticket/employee", "middleware" => ["jwt.employee"]], 
     Route::get('get-recording', [EmployeeTicketController::class, 'allRecording']);
     Route::get('detail/{id}', [EmployeeTicketController::class, 'detail']);
     Route::post('submit/{id}', [EmployeeTicketController::class, 'submit']);
+    Route::post('record/{id}', [EmployeeTicketController::class, 'submit']);
 });

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Ticket;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CheckinTicketRequest;
+use App\Http\Requests\RecordUnitRequest;
 use App\Http\Requests\SubmitTicketRequest;
 use App\Models\Ticket;
 use App\Service\Ticket\EmployeeTicketService;
@@ -63,6 +64,11 @@ class EmployeeTicketController extends Controller
         $payload["ticket_id"] = $id;
         $result = $this->service->submitWork($payload, $request->allFiles());
         return WebResponseUtils::response($result, "Success Creating Inquiry");
+
+    }
+
+    public function record($id, RecordUnitRequest $request)
+    {
 
     }
 
