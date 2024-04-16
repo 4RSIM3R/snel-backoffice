@@ -7,7 +7,7 @@ use Illuminate\Validation\Rule;
 
 class RecordUnitRequest extends ValidationRequest
 {
- 
+
     public function authorize(): bool
     {
         return true;
@@ -21,8 +21,14 @@ class RecordUnitRequest extends ValidationRequest
     public function rules(): array
     {
         return [
-            'ticket_id' => ['required', Rule::exists('tickets','id')],
-            'site_id' => ['required', Rule::exists('sites','id')],
+            'ticket_id' => ['required', Rule::exists('tickets', 'id')],
+            'site_id' => ['required', Rule::exists('sites', 'id')],
+            'identifier' => ['required', 'string', Rule::unique('units', 'units')],
+            'name' => ['required', 'string'],
+            'description' => ['required', 'string'],
+            'specification' => ['required', 'string'],
+            'photo.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10240',
+            'excel.*' => 'nullable|image|mimes:csv,xlsx,xls|max:20480'
         ];
     }
 }
